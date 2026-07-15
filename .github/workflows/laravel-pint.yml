@@ -23,7 +23,7 @@ jobs:
         run: composer require laravel/pint
 
       - name: Run Laravel Pint
-        run: ./vendor/bin/pint --test
+        run: ./vendor/bin/pint
 
       - name: Push Changes Back to Repository
         run: |
