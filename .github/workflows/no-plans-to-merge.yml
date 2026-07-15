@@ -5,6 +5,8 @@ on:
     types:
       - closed
 
+permissions: write-all
+
 jobs:
   no-plans-to-merge:
     runs-on: ubuntu-latest
