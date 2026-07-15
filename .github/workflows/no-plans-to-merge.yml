@@ -5,11 +5,11 @@ on:
     types:
       - closed
 
-permissions: write-all
-
 jobs:
   no-plans-to-merge:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
 
     steps:
       - name: Create a comment on the PR
