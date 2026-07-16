@@ -15,13 +15,18 @@ runs:
   using: composite
 
   steps:
+    - name: Get Extensions Cache Key
+      id: get-extensions-cache-key
+      run: echo "key=extensions-cache-$(echo inputs.php-extensions | mdsum5 | awk '{print $1}')" >> $GITHUB_OUTPUT
+      shell: bash
+
     - name: Setup PHP Extensions Cache Environment
       id: extcache
       uses: shivammathur/cache-extensions@v1
       with:
         php-version: ${{ inputs.php-version }}
         extensions: ${{ inputs.php-extensions }}
-        key: ${{ env.EXTENSIONS_CACHE_KEY }}
+        key: ${{ steps.get-extensions-cache-key.outputs.key }}
 
     - name: Cache PHP Extensions
       uses: actions/cache@v4
@@ -38,13 +43,13 @@ runs:
         tools: composer:v2
 
     - name: Get Composer Cache Directory
-      id: composer-cache-dir
+      id: get-composer-cache-dir
       run: echo dir=$(composer config cache-files-dir) >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Cache Composer Dependencies
       uses: actions/cache@v6.1.0
       with:
-        path: ${{ steps.composer-cache-dir.outputs.dir }}
+        path: ${{ steps.get-composer-cache-dir.outputs.dir }}
         key: dependencies-cache-${{ hashFiles('**/composer.lock') }}
         restore-keys: dependencies-cache-
