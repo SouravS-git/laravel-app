@@ -24,6 +24,7 @@ jobs:
     env:
       PHP_VERSION: 8.4
       PHP_EXTENSIONS: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, memcached, gmp, :php-psr
+      EXTENSIONS_CACHE_KEY: cache-extensions-v1
 
     steps:
       - name: Checkout Codebase
@@ -35,7 +36,7 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
-          key: cache-extensions-v1
+          key: ${{ env.EXTENSIONS_CACHE_KEY }}
 
       - name: Cache PHP Extensions
         uses: actions/cache@v4
@@ -59,8 +60,8 @@ jobs:
         uses: actions/cache@v6.1.0
         with:
           path: ${{ steps.composer-cache-dir.outputs.dir }}
-          key: cache-dependencies-${{ hashFiles('**/composer.lock') }}
-          restore-keys: cache-dependencies-
+          key: dependencies-cache-${{ hashFiles('**/composer.lock') }}
+          restore-keys: dependencies-cache-
 
       - name: Install Dependencies
         run: composer install -q --no-interaction
