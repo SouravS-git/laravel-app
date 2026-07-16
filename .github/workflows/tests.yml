@@ -32,7 +32,6 @@ jobs:
 
       - name: Install PEST
         run: |
-          composer remove phpunit/phpunit
           composer require pestphp/pest --dev --with-all-dependencies
           ./vendor/bin/pest --init
 
