@@ -30,10 +30,11 @@ jobs:
           cp .env.example .env
           php artisan key:generate
 
-      - name: Install PEST
-        run: |
-          composer require pestphp/pest --dev --with-all-dependencies
-          ./vendor/bin/pest --init
+#      - name: Install PEST
+#        run: |
+#          composer require pestphp/pest --dev --with-all-dependencies
+#          ./vendor/bin/pest --init
+#          composer require pestphp/pest-plugin-laravel --dev
 
       - name: Run Tests
-        run: ./vendor/bin/pest
+        run: php artisan test
