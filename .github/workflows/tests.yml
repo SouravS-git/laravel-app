@@ -25,6 +25,21 @@ jobs:
       - name: Checkout Codebase
         uses: actions/checkout@v7.0.0
 
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: 8.4
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, memcached, gmp, :php-psr
+          key: cache-extensions-v1
+
+      - name: Cache extensions
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+
       - name: Setup PHP and Composer
         uses: shivammathur/setup-php@2.37.2
         with:
@@ -36,11 +51,11 @@ jobs:
         id: composer-cache-dir
         run: echo dir=$(composer config cache-files-dir) >> $GITHUB_OUTPUT
 
-      - name: Cache Dependencies
+      - name: Cache Composer Dependencies
         uses: actions/cache@v6.1.0
         with:
-          key: cache-dependencies-${{ hashFiles('**/composer.lock') }}
           path: ${{ steps.composer-cache-dir.outputs.dir }}
+          key: cache-dependencies-${{ hashFiles('**/composer.lock') }}
           restore-keys: cache-dependencies-
 
       - name: Install Dependencies
