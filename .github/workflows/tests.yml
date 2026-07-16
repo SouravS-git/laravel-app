@@ -32,6 +32,12 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, memcached, gmp, :php-psr
           tools: composer:v2
 
+      - name: Cache Dependencies
+        uses: actions/cache@v6.1.0
+        with:
+          key: cache-dependencies-${{ hashFiles('**/composer.lock') }}
+          path: vendor
+
       - name: Install Dependencies
         run: composer install -q --no-interaction
 
