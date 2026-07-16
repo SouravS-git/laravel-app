@@ -25,8 +25,5 @@ jobs:
       - name: Install Dependencies
         run: composer install --no-interaction
 
-      - name: Install Pest
-        run: composer require pestphp/pest --dev
-
       - name: Run Tests
-        run: ./vendor/bin/pest
+        run: php artisan test
