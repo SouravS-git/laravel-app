@@ -12,6 +12,15 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: laravel
+        ports:
+          - 3306:3306
+
     steps:
       - name: Checkout Codebase
         uses: actions/checkout@v7.0.0
@@ -28,12 +37,12 @@ jobs:
 
       - name: Prepare Laravel Application
         run: |
-          touch database/database.sqlite
           cp .env.example .env
           php artisan key:generate
 
       - name: Run Tests
         env:
-          DB_CONNECTION: 'sqlite'
-          DB_DATABASE: ':memory:'
+          DB_CONNECTION: mysql
+          DB_PORT: 3306
+          DB_DATABASE: laravel
         run: ./vendor/bin/pest
