@@ -32,11 +32,16 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, memcached, gmp, :php-psr
           tools: composer:v2
 
+      - name: Get Composer Cache Directory
+        id: composer-cache-dir
+        run: echo dir=$(composer config cache-dir) >> $GITHUB_ENV
+
       - name: Cache Dependencies
         uses: actions/cache@v6.1.0
         with:
           key: cache-dependencies-${{ hashFiles('**/composer.lock') }}
-          path: vendor
+          path: ${{ steps.composer-cache-dir.outputs.dir }}
+          restore-keys: cache-dependencies-
 
       - name: Install Dependencies
         run: composer install -q --no-interaction
