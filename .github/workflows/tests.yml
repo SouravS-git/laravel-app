@@ -17,7 +17,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_DATABASE: laravel
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: password
         ports:
           - 3306:3306
 
@@ -41,4 +41,11 @@ jobs:
           php artisan key:generate
 
       - name: Run Tests
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: mysql
+          DB_PORT: 3306
+          DB_DATABASE: laravel
+          DB_USERNAME: root
+          DB_PASSWORD: password
         run: ./vendor/bin/pest
