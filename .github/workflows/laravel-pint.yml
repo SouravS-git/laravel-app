@@ -6,9 +6,10 @@ on:
       - main
 
 jobs:
-  laravel-pint:
+  run-laravel-pint:
     permissions:
       contents: write
+
     runs-on: ubuntu-latest
 
     steps:
