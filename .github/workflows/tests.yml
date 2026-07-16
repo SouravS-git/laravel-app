@@ -37,4 +37,4 @@ jobs:
 #          composer require pestphp/pest-plugin-laravel --dev
 
       - name: Run Tests
-        run: php artisan test
+        run: ./vendor/bin/pest
