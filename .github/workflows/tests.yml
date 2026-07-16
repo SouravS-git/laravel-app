@@ -25,7 +25,7 @@ jobs:
       - name: Checkout Codebase
         uses: actions/checkout@v7.0.0
 
-      - name: Setup cache environment
+      - name: Setup PHP Extensions Cache Enviroment
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
@@ -33,7 +33,7 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, memcached, gmp, :php-psr
           key: cache-extensions-v1
 
-      - name: Cache extensions
+      - name: Cache PHP Extensions
         uses: actions/cache@v4
         with:
           path: ${{ steps.extcache.outputs.dir }}
