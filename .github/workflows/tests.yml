@@ -22,8 +22,6 @@ jobs:
           - 3306:3306
 
     env:
-      PHP_VERSION: 8.4
-      PHP_EXTENSIONS: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, memcached, gmp, :php-psr
       EXTENSIONS_CACHE_KEY: extensions-cache-v1
 
     steps:
@@ -32,6 +30,8 @@ jobs:
 
       - name: Setup Environment
         uses: ./.github/actions/setup
+        with:
+          php-version: 8.4
 
       - name: Install Dependencies
         run: composer install -q --no-interaction
