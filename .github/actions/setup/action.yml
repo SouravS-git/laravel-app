@@ -1,5 +1,5 @@
-name: Setup
-description: Sets up application environment
+name: Setup Environment Action
+description: Sets up PHP and Composer
 
 inputs:
   php-version:
@@ -9,7 +9,7 @@ inputs:
   php-extensions:
     description: PHP extension(s) to install
     required: false
-    default: 'curl, dom, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, memcached, gmp, :php-psr'
+    default: 'dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, memcached, gmp, :php-psr'
 
 runs:
   using: composite
