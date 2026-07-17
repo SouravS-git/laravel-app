@@ -21,9 +21,6 @@ jobs:
         ports:
           - 3306:3306
 
-    env:
-      EXTENSIONS_CACHE_KEY: extensions-cache-v1
-
     steps:
       - name: Checkout Codebase
         uses: actions/checkout@v7.0.0
