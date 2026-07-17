@@ -21,12 +21,13 @@ jobs:
         with:
           php-version: '8.4'
           php-extensions: 'json, dom, curl, libxml, mbstring'
+          coverage: 'xdebug'
 
       - name: Install Laravel Pint
         run: composer require laravel/pint
 
       - name: Run Laravel Pint
-        run: ./vendor/bin/pint
+        run: ./vendor/bin/pint --coverage --min=75
 
       - name: Push Changes Back to Repository
         env:
