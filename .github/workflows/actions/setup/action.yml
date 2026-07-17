@@ -17,7 +17,7 @@ runs:
   steps:
     - name: Get Extensions Cache Key
       id: get-extensions-cache-key
-      run: echo "key=extensions-cache-$(echo '${{ inputs.php-extensions }}' | mdsum5 | awk '{print $1}') >> $GITHUB_OUTPUT
+      run: echo "key=extensions-cache-$(echo ${{ inputs.php-extensions }} | mdsum5 | awk '{print $1}') >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Setup PHP Extensions Cache Environment
