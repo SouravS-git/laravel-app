@@ -1,0 +1,17 @@
+name: Deploy
+on:
+  workflow_run:
+    workflows:
+      - Laravel Pint
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v7.0.0
+
+      - name: Deploy to Server
+        run: echo "Deploying to server..."
