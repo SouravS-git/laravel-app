@@ -33,8 +33,8 @@ jobs:
           GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
           GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
         run: |
-          git config user.email ${{ GIT_EMAIL }}
-          git config user.name ${{ GIT_USERNAME }}
+          git config user.email '$GIT_EMAIL'
+          git config user.name '$GIT_USERNAME'
           git add .
           git commit -m "Pint Fixes" || exit 0
           git push
