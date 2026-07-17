@@ -42,8 +42,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected static function booted()
-    {
+    protected static function booted(){
         // TODO: need to code later
     }
 }

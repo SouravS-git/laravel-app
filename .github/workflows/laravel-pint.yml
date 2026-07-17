@@ -30,7 +30,7 @@ jobs:
 
       - name: Push Changes Back to Repository
         env:
-          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_USERNAME: ${{ vars.GIT_USERNAME }}
           GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
         run: |
           git config user.email '$GIT_EMAIL'
