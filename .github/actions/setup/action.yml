@@ -9,7 +9,7 @@ inputs:
   php-extensions:
     description: PHP extension(s) to install
     required: false
-    default: 'dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, memcached, gmp, :php-psr'
+    default: 'curl, dom, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, memcached, gmp, :php-psr'
 
 runs:
   using: composite
