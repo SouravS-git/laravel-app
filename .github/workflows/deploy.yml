@@ -6,12 +6,19 @@ on:
     types:
       - completed
 
+  release:
+    types:
+      - published
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: ${{ github.event_name == 'workflow_run' && 'staging' || 'production' }}
     steps:
       - name: Checkout Codebase
         uses: actions/checkout@v7.0.0
 
       - name: Deploy to Server
-        run: echo "Deploying to server..."
+        env:
+          DEPLOY_URL: ${{vars.DEPLOY_URL}}
+        run: echo ${{ DEPLOY_URL }}
