@@ -21,4 +21,4 @@ jobs:
       - name: Deploy to Server
         env:
           DEPLOY_URL: ${{vars.DEPLOY_URL}}
-        run: echo ${{ DEPLOY_URL }}
+        run: echo ${{ env.DEPLOY_URL }}
