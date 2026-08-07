@@ -22,7 +22,7 @@ runs:
   steps:
     - name: Get Extensions Cache Hash
       id: get-extensions-cache-hash
-      run: echo hash=$(echo '${{ inputs.php-extensions }}' | mdsum5 | awk '{print $1}') >> $GITHUB_OUTPUT
+      run: echo hash=$(echo '${{ inputs.php-extensions }}' | md5sum | awk '{print $1}') >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Setup PHP Extensions Cache Environment
