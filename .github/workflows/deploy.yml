@@ -2,7 +2,7 @@ name: Deploy
 on:
   workflow_run:
     workflows:
-      - Laravel Pint
+      - CI
     types:
       - completed
 
@@ -12,11 +12,18 @@ on:
 
 jobs:
   deploy:
+    if:
+      github.event_name == 'release' ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+
+    environment: ${{ github.event_name == 'release' && 'production' || 'staging' }}
+
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
-    environment: ${{ github.event_name == 'workflow_run' && 'staging' || 'production' }}
+
     steps:
       - name: Checkout Codebase
         uses: actions/checkout@v7.0.0

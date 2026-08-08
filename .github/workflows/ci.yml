@@ -8,10 +8,11 @@ on:
 
 jobs:
   pest-tests:
-    permissions:
-      contents: read
 
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
 
     services:
       mysql:
@@ -50,10 +51,11 @@ jobs:
         run: ./vendor/bin/pest
 
   lint-check:
-    permissions:
-      contents: read
 
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout
