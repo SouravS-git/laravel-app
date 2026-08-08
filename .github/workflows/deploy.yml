@@ -29,6 +29,7 @@ jobs:
         uses: actions/checkout@v7.0.0
 
       - name: Deploy to Server
+        if: github.event_name == 'release'
         env:
           DEPLOY_URL: ${{vars.DEPLOY_URL}}
         run: echo ${{ env.DEPLOY_URL }}
