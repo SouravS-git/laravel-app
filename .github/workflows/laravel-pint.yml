@@ -1,9 +1,9 @@
 name: Laravel Pint
 
 on:
-  push:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
 
 jobs:
   run-laravel-pint:

@@ -1,10 +1,10 @@
-name: Tests
+name: CI
 
 on:
-#  pull_request:
+  pull_request:
 
 jobs:
-  run-tests:
+  pest-tests:
     permissions:
       contents: read
 
@@ -20,7 +20,7 @@ jobs:
           - 3306:3306
 
     steps:
-      - name: Checkout Codebase
+      - name: Checkout
         uses: actions/checkout@v7.0.0
 
       - name: Setup Environment
@@ -36,7 +36,7 @@ jobs:
           cp .env.example .env
           php artisan key:generate
 
-      - name: Run Tests
+      - name: Run Pest Tests
         env:
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
@@ -44,4 +44,26 @@ jobs:
           DB_DATABASE: laravel
           DB_USERNAME: root
           DB_PASSWORD: secret
-        run: ./vendor/bin/pest
+        run: vendor/bin/phpunit
+
+  lint-check:
+    permissions:
+      contents: read
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.0
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          php-version: '8.4'
+          php-extensions: 'json, dom, curl, libxml, mbstring'
+
+      - name: Install Dependencies
+        run: composer install -q --no-interaction
+
+      - name: Run Pint Check
+        run: ./vendor/bin/pint

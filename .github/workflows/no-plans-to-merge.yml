@@ -1,9 +1,9 @@
 name: No Plans to Merge
 
 on:
-  pull_request:
-    types:
-      - closed
+#  pull_request:
+#    types:
+#      - closed
 
 jobs:
   no-plans-to-merge:
