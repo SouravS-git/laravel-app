@@ -2,12 +2,6 @@ name: CI
 
 on:
   pull_request:
-    branches:
-      - main
-
-  push:
-    branches:
-      - main
 
 jobs:
   pest-tests:
@@ -77,4 +71,4 @@ jobs:
           php artisan key:generate
 
       - name: Run Pint Check
-        run: ./vendor/bin/pint
+        run: ./vendor/bin/pint --test
