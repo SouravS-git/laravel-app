@@ -68,5 +68,10 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-interaction
 
+      - name: Prepare Laravel Application
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
       - name: Run Pint Check
         run: ./vendor/bin/pint --test
