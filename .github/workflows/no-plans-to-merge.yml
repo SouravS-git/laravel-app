@@ -1,6 +1,6 @@
 name: No Plans to Merge
 
-on:
+#on:
 #  pull_request:
 #    types:
 #      - closed
