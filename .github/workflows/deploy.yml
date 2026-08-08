@@ -11,6 +11,10 @@ on:
     types:
       - published
 
+concurrency:
+  group: deploy-${{ github.event_name == 'release' && 'production' || 'staging' }}
+  cancel-in-progress: false
+
 jobs:
   deploy:
     if: >
