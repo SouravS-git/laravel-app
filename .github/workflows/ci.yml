@@ -50,7 +50,7 @@ jobs:
           DB_DATABASE: laravel
           DB_USERNAME: root
           DB_PASSWORD: secret
-        run: vendor/bin/phpunit
+        run: ./vendor/bin/pest
 
   lint-check:
     permissions:
