@@ -13,7 +13,14 @@ on:
 
 jobs:
   deploy:
-    if: github.event_name == 'release' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    if: >
+      github.event_name == 'release' ||
+      (
+        github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push' &&
+        github.event.workflow_run.head_branch == 'main'
+      )
 
     runs-on: ubuntu-latest
 
@@ -21,11 +28,24 @@ jobs:
       contents: read
       packages: write
 
-    environment: ${{ github.event_name == 'workflow_run' && 'staging' || 'production' }}
+    environment: ${{ github.event_name == 'release' && 'production' || 'staging' }}
 
     steps:
       - name: Checkout Codebase
         uses: actions/checkout@v7.0.0
+        with:
+          ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.event.workflow_run.head_sha }}
+
+      - name: Get Image Tag
+        id: get_image_tag
+        run: |
+          if [ "${{ github.event_name }}" == "release" ]; then
+            TAG=$(git rev-parse HEAD)
+          else
+            TAG="${{ github.event.workflow_run.head_sha }}"
+          fi
+
+          echo tag=$TAG >> $GITHUB_OUTPUT
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -38,16 +58,26 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Convert repository name to lowercase
-        run: echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        id: convert_repository_name_to_lowercase
+        run: echo "image_name=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
 
       - name: Build and Push Docker Image
+        if: github.event_name == 'workflow_run'
         uses: docker/build-push-action@v7.3.0
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: ghcr.io/${{ steps.convert_repository_name_to_lowercase.outputs.image_name }}:${{ steps.get_image_tag.outputs.tag }}
+
+      - name: Pull Docker Image
+        if: github.event_name == 'release'
+        run: docker pull ghcr.io/${{ steps.convert_repository_name_to_lowercase.outputs.image_name }}:${{ steps.get_image_tag.outputs.tag }}
 
       - name: Deploy to Server
         env:
           DEPLOY_URL: ${{vars.DEPLOY_URL}}
-        run: echo ${{ env.DEPLOY_URL }}
+        run: |
+          echo "Environment: ${{ github.event_name == 'release' && 'production' || 'staging' }}"
+          echo "Deploy URL: ${{ env.DEPLOY_URL }}"
+          echo "Image: ghcr.io/${{ steps.convert_repository_name_to_lowercase.outputs.image_name }}:${{ steps.get_image_tag.outputs.tag }}"
+
